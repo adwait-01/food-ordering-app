@@ -9,6 +9,7 @@ const Header = () => {
       <div className="logo-container">
         <img
           className="logo"
+          // we can write here className={"logo"+"head"}. But addition is a javascript operation, so we write it inside curly braces.
           src="https://cdn.creativefabrica.com/2020/02/12/Food-Logo-Graphics-1-99-580x386.jpg"
         />
       </div>
@@ -29,9 +30,6 @@ const styleCard = {
 };
 
 const RestaurantCard = (props) => {
-  // console.log(props);
-  // 1. Instead of (props), we can write ({resName, cuisine}) -> This is known as 'object destructuring' which we do in javascript. Instead of writing {props.resName} in the above case, we directly write {resName} in this case when we use that prop.
-  // 2. We can also do -> const {resName, cuisine} = props; here and then use the same way instead of doing directly inside () -> which(1) is called object destructuring on the fly.
   const { resData } = props;
   return (
     <div className="res-card" style={styleCard}>
@@ -40,165 +38,18 @@ const RestaurantCard = (props) => {
         alt="res-logo"
         src={
           "https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/" +
-          resData.data.cloudinaryImageId
+          resData.info.cloudinaryImageId
         }
       />
       <h3>{resData.info.name}</h3>
       <p>{resData.info.cuisines.join(", ")}</p>
-      {/* As 'cuisines' was an array, we used join(", ") to separate the array values by comma and a space. This is a javascript concept. Read about join() of arrays in javascript from MDN. */}
       <p>
-        {resData.info.avgRating} stars ({resData.data.totalRatings})
+        {resData.info.avgRating} stars ({resData.info.totalRatingsString})
       </p>
       <p>{resData.info.costForTwo}</p>
       <p>{resData.info.sla.deliveryTime} mins</p>
     </div>
   );
-};
-
-// Generally data is not passed as string directly to each component right. We don't pass the props one by one to the component by ourselves for each component.
-// A data comes from backend to us in the form of a JSON.
-
-// KFC data from old swiggy API:
-// const resObj = {
-//   type: "restaurant",
-//   data: {
-//     type: "F",
-//     id: "334475",
-//     name: "KFC",
-//     uuid: "caed0e3b-7c0e-4367-8f59-f41d309fb93a",
-//     city: "1",
-//     area: "BTM Layout",
-//     totalRatingsString: "500+ ratings",
-//     cloudinaryImageId: "bdcd233971b7c81bf77e1fa4471280eb",
-
-//     cuisines: ["Burgers", "Biryani", "American", "Snacks", "Fast Food"],
-
-//     costForTwo: 40000,
-//     costForTwoString: "₹400 FOR TWO",
-
-//     deliveryTime: 36,
-//     minDeliveryTime: 36,
-//     maxDeliveryTime: 36,
-
-//     slaString: "36 MINS",
-//     lastMileTravel: 3.5,
-
-//     slugs: {
-//       restaurant: "kfc-btm-layout-btm",
-//       city: "bangalore",
-//     },
-
-//     cityState: "1",
-
-//     address: "KFC restaurants, 942, SV Tower, 16th Main, BTM 2nd Stage, ...",
-
-//     locality: "2nd Stage",
-//     parentId: 547,
-
-//     unserviceable: false,
-//     veg: false,
-//     select: false,
-//     favorite: false,
-
-//     aggregatedDiscountInfo: {
-//       header: "FREE DELIVERY",
-//       shortDescriptionList: [
-//         {
-//           meta: "FREE DELIVERY",
-//           discountType: "FREE_DELIVERY",
-//           operationType: "RESTAURANT",
-//         },
-//       ],
-//     },
-
-//     aggregatedDiscountInfoV2: {
-//       descriptionList: [
-//         {
-//           meta: "FREE DELIVERY",
-//           discountType: "FREE_DELIVERY",
-//           operationType: "RESTAURANT",
-//         },
-//       ],
-//     },
-
-//     ribbon: [
-//       {
-//         type: "PROMOTED",
-//       },
-//     ],
-
-//     feeDetails: {
-//       fees: [],
-//       totalFees: 0,
-//     },
-
-//     availability: {
-//       opened: true,
-//     },
-
-//     longDistanceEnabled: 0,
-//     rainMode: "NONE",
-
-//     thirdPartyAddress: false,
-//     thirdPartyVendor: "",
-
-//     badges: {
-//       imageBased: [],
-//       textBased: [],
-//       textExtendedBadges: [],
-//     },
-
-//     lastMileTravelString: "3.5 kms",
-//     hasSurge: false,
-
-//     sla: {
-//       restaurantId: "334475",
-//       deliveryTime: 36,
-//       minDeliveryTime: 36,
-//       maxDeliveryTime: 36,
-//       lastMileTravel: 3.5,
-//       lastMileDistance: 0,
-//       serviceability: "SERVICEABLE",
-//       rainMode: "NONE",
-//       longDistance: "NOT_LONG_DISTANCE",
-//       preferentialService: false,
-//       iconType: "EMPTY",
-//     },
-
-//     promoted: true,
-//     avgRating: "3.8",
-//     totalRatings: 500,
-//     new: false,
-//   },
-//   subtype: "basic",
-// };
-// As we can see, the production level codes have a different heirarchy of data.
-// Now we can pass this object directly to the component by doing resData={resObj}.
-
-const resObj = {
-  info: {
-    id: "123456",
-    name: "Pizza Paradise",
-    cloudinaryImageId:
-      "RX_THUMBNAIL/IMAGES/VENDOR/2025/6/17/6def0f0f-9e6c-45c0-b5e6-05af750f27b5_795906.JPG",
-    locality: "MG Road",
-    areaName: "Central District",
-    costForTwo: "₹400 for two",
-    cuisines: ["Pizza", "Italian", "Fast Food"],
-    avgRating: 4.3,
-    avgRatingString: "4.3",
-    totalRatingsString: "10K+ ratings",
-    veg: false,
-    sla: {
-      deliveryTime: 30,
-      lastMileTravel: 3.5,
-      slaString: "30 mins",
-    },
-    aggregatedDiscountInfoV3: {
-      header: "50% OFF",
-      subHeader: "UPTO ₹100",
-    },
-  },
 };
 
 const resList = [
@@ -432,7 +283,15 @@ const Body = () => {
     <div className="body">
       <div className="search">Search</div>
       <div className="res-container">
-        <RestaurantCard resData={resObj} />
+        <RestaurantCard resData={resList[0]} />
+        <RestaurantCard resData={resList[1]} />
+        <RestaurantCard resData={resList[2]} />
+        <RestaurantCard resData={resList[3]} />
+        <RestaurantCard resData={resList[4]} />
+        <RestaurantCard resData={resList[5]} />
+        <RestaurantCard resData={resList[6]} />
+        <RestaurantCard resData={resList[7]} />
+        <RestaurantCard resData={resList[8]} />
       </div>
     </div>
   );
