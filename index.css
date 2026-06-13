@@ -55,3 +55,8 @@ ul {
   flex-wrap: wrap;
   gap: 10px;
 }
+
+.filter-btn{
+  margin: 10px;
+  cursor: pointer;
+}
