@@ -5,7 +5,7 @@ const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
 
   useEffect(() => {
-    console.log("useEffect called");
+    // console.log("useEffect called");
     fetchData();
   }, []);
 
@@ -16,13 +16,24 @@ const Body = () => {
       "https://www.swiggy.com/dapi/restaurants/list/v5?lat=20.26570291996979&lng=85.84314675817616&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
     );
     const json = await data.json();
-    // console.log(json);
+    console.log(json);
     // Optional chaining:
-    setListOfRestaurants(
-      json?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle
-        ?.restaurants || []
-    );
+    const restaurantCard = json?.data?.cards?.find(
+      (card) => card?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    ); // I did this to find the card which contains the restaurants array because the index of the card containing the restaurants in the cards[] kept changing in the live Swiggy API response.
+
+    const restaurantsArray =
+      restaurantCard?.card?.card?.gridElements?.infoWithStyle?.restaurants ||
+      [];
+    console.log(restaurantsArray);
+    // console.log(restaurantss.length);
+
+    setListOfRestaurants(restaurantsArray);
   };
+
+  if (listOfRestaurants.length === 0) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <div className="body">
