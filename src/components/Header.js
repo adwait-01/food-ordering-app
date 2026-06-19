@@ -1,14 +1,12 @@
 import { LOGO_URL } from "../utils/constants";
+import { useState } from "react";
 
 const Header = () => {
+  const [btnName, setBtnName] = useState("Login");
   return (
     <div className="header">
       <div className="logo-container">
-        <img
-          className="logo"
-          // we can write here className={"logo"+"head"}. But addition is a javascript operation, so we write it inside curly braces.
-          src={LOGO_URL}
-        />
+        <img className="logo" src={LOGO_URL} />
       </div>
       <div className="nav-items">
         <ul>
@@ -16,6 +14,14 @@ const Header = () => {
           <li>About Us</li>
           <li>Contact</li>
           <li>Cart</li>
+          <button
+            className="login-btn"
+            onClick={() => {
+              setBtnName(btnName === "Login" ? "Logout" : "Login");
+            }}
+          >
+            {btnName}
+          </button>
         </ul>
       </div>
     </div>

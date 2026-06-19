@@ -1,51 +1,65 @@
 import RestaurantCard from "./RestaurantCard";
+import Shimmer from "./Shimmer";
 import { useState, useEffect } from "react";
 
 const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
+  const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
-    // console.log("useEffect called");
     fetchData();
   }, []);
-
-  // console.log("Body rendered")
 
   const fetchData = async () => {
     const data = await fetch(
       "https://www.swiggy.com/dapi/restaurants/list/v5?lat=20.26570291996979&lng=85.84314675817616&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
     );
     const json = await data.json();
-    // console.log(json);
-    // Optional chaining:
     const restaurantCard = json?.data?.cards?.find(
       (card) => card?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    ); // I did this to find the card which contains the restaurants array because the index of the card containing the restaurants in the cards[] kept changing in the live Swiggy API response.
+    );
 
     const restaurantsArray =
       restaurantCard?.card?.card?.gridElements?.infoWithStyle?.restaurants ||
       [];
-    // console.log(restaurantsArray);
-    // console.log(restaurantsArray.length);
 
     setListOfRestaurants(restaurantsArray);
+    setFilteredRestaurants(restaurantsArray);
   };
 
-  if (listOfRestaurants.length === 0) {
-    return <h1>Loading...</h1>;
-  }
-
-  return (
+  return listOfRestaurants.length === 0 ? (
+    <Shimmer />
+  ) : (
     <div className="body">
       <div className="filter">
+        <div className="search">
+          <input
+            type="text"
+            className="search-box"
+            value={searchText}
+            onChange={(e) => {
+              setSearchText(e.target.value);
+            }}
+          />
+          <button
+            className="search-btn"
+            onClick={() => {
+              const filterList = listOfRestaurants.filter((res) =>
+                res.info.name.toLowerCase().includes(searchText.toLowerCase())
+              );
+              setFilteredRestaurants(filterList);
+            }}
+          >
+            Search
+          </button>
+        </div>
         <button
           className="filter-btn"
           onClick={() => {
-            // console.log("Button clicked");
             const filteredList = listOfRestaurants.filter(
               (res) => res.info.avgRating >= 4
             );
-            // console.log(newList);
             setListOfRestaurants(filteredList);
           }}
         >
@@ -53,7 +67,7 @@ const Body = () => {
         </button>
       </div>
       <div className="res-container">
-        {listOfRestaurants.map((restaurant) => (
+        {filteredRestaurants.map((restaurant) => (
           <RestaurantCard key={restaurant.info.id} resData={restaurant} />
         ))}
       </div>
