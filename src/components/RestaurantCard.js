@@ -13,6 +13,7 @@ const RestaurantCard = (props) => {
     avgRating,
     totalRatingsString,
     costForTwo,
+    sla,
   } = resData?.info; // Optional chaining
   return (
     <div className="res-card" style={styleCard}>
@@ -27,7 +28,7 @@ const RestaurantCard = (props) => {
         {avgRating} stars ({totalRatingsString})
       </p>
       <p>{costForTwo}</p>
-      <p>{resData.info.sla.deliveryTime} mins</p>
+      <p>{sla?.deliveryTime} mins</p>
     </div>
   );
 };
