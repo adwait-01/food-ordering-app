@@ -86,3 +86,8 @@ ul {
 .search-btn {
   cursor: pointer;
 }
+
+.restaurant-link {
+  text-decoration: none;
+  color: inherit;
+}
