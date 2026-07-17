@@ -3,52 +3,47 @@ import React from "react";
 class UserClass extends React.Component {
   constructor(props) {
     super(props);
-    // console.log(props);
+
+    const { name, location } = this.props;
 
     this.state = {
-      count: 0,
-      count2: 1,
-      count3: 0,
-      count4: -1,
-      count5: 6,
+      userInfo: {
+        name: name,
+        location: location,
+      },
     };
 
-    console.log("Child constructor");
+    // console.log(this.props.name + "Child constructor");
   }
 
-  componentDidMount() {
-    console.log("Child Component did mount");
+  async componentDidMount() {
+    // console.log(this.props.name + "Child Component did mount");
+    const data = await fetch("https://api.github.com/users/adwait-01");
+    const json = await data.json();
+
+    this.setState({
+      userInfo: json,
+    });
+
+    console.log(json);
+  }
+
+  componentDidUpdate() {
+    console.log("Component Did Update");
+  }
+
+  componentWillUnmount() {
+    console.log("Component Will Unmount");
   }
 
   render() {
-    console.log("Child render");
+    // console.log(this.props.name + "Child render");
 
-    const { name, location } = this.props;
-    const { count, count2 } = this.state;
+    const { name, location, avatar_url } = this.state.userInfo;
 
     return (
       <div className="user-card">
-        <h2>Count: {count}</h2>
-        <button
-          onClick={() => {
-            this.setState({
-              count: count + 1,
-              count2: count2 + 2,
-            });
-          }}
-        >
-          Count1 & Count2 Increase
-        </button>
-        <h2>Count2: {count2}</h2>
-        <button
-          onClick={() => {
-            this.setState({
-              count2: count2 - 2,
-            });
-          }}
-        >
-          Count2 Decrease
-        </button>
+        <img src={avatar_url} />
         <h2>Name: {name}</h2>
         <h3>Location: {location}</h3>
         <h4>Contact: @ganja._.gang</h4>
