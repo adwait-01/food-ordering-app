@@ -4,7 +4,7 @@ const User = ({ name, location }) => {
   const [count, setCount] = useState(0);
   const [count2] = useState(1);
   return (
-    <div className="user-card">
+    <div className="">
       <h2>Count: {count}</h2>
       <button
         onClick={() => {
