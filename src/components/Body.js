@@ -1,6 +1,6 @@
 import useOnlineStatus from "../utils/useOnlineStatus";
 import useRestaurantData from "../utils/useRestaurantData";
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, { withFastDeliveryLabel } from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -10,6 +10,9 @@ const Body = () => {
   const [searchText, setSearchText] = useState("");
 
   const listOfRestaurants = useRestaurantData();
+  // console.log(listOfRestaurants);
+
+  const RestaurantCardFastDelivery = withFastDeliveryLabel(RestaurantCard);
 
   useEffect(() => {
     setFilteredRestaurants(listOfRestaurants);
@@ -69,9 +72,13 @@ const Body = () => {
           <Link
             key={restaurant.info.id}
             to={"/restaurants/" + restaurant.info.id}
-            className="restaurant-link"
+            className=""
           >
-            <RestaurantCard resData={restaurant} />
+            {restaurant.info.sla.deliveryTime <= 25 ? (
+              <RestaurantCardFastDelivery resData={restaurant} />
+            ) : (
+              <RestaurantCard resData={restaurant} />
+            )}
           </Link>
         ))}
       </div>

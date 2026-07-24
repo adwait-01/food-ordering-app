@@ -2,6 +2,7 @@ import { SWIGGY_IMG_URL } from "../utils/constants";
 
 const RestaurantCard = (props) => {
   const { resData } = props;
+
   const {
     cloudinaryImageId,
     name,
@@ -28,6 +29,23 @@ const RestaurantCard = (props) => {
       <p>{sla?.deliveryTime} mins</p>
     </div>
   );
+};
+
+// Higher order component:
+
+// input is RestaurantCard component => output is RestaurantCardFastDelivery
+
+export const withFastDeliveryLabel = (RestaurantCard) => {
+  return (props) => {
+    return (
+      <div className="relative">
+        <label className="absolute top-2 left-2 rounded-md bg-emerald-500 px-2 py-1 text-xs font-semibold text-white shadow-md">
+          Fast Delivery
+        </label>
+        <RestaurantCard {...props} />
+      </div>
+    );
+  };
 };
 
 export default RestaurantCard;
