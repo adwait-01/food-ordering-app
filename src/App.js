@@ -11,6 +11,7 @@ import UserContext from "./utils/UserContext";
 import { useState, useEffect } from "react";
 import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
+import Cart from "./components/Cart";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -72,6 +73,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/restaurants/:resId",
         element: <RestaurantMenu />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
       },
     ],
     errorElement: <Error />,
